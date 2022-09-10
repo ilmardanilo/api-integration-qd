@@ -81,4 +81,33 @@ app.post('/produto', async (req, res) => {
     }
 })
 
+// Atualizar todos os estoques dos produtos buscando do ERP, para o aplicativo
+app.put('/produto/estoque', async (req, res) => {
+    try {
+        
+        function listaProdutosERP() {
+            return apiSystemMercado.get('/')
+        }
+    
+        const dados = await listaProdutosERP()
+
+        const produtos = dados.data.products
+
+        produtos.forEach(async prod => {
+            let produto = {
+                quantidade: prod.stock
+            }
+
+            let codigoBarra = prod.barCode
+
+            await apiQueroDelivery.put(`/produto/lancar-estoque?codigoBarras=${codigoBarra}`, produto)
+
+        })
+
+        res.status(200).json({message: "Estoque dos produtos atualizado com sucesso!"})
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
 app.listen(8080, () => console.log("Server ON"))
