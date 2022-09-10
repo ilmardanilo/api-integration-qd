@@ -1,0 +1,14 @@
+{
+  "name": "api-integration-qd",
+  "version": "1.0.0",
+  "description": "API para integrar dados de um sistema externo a API do Quero Delivery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ilmar Danilo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
