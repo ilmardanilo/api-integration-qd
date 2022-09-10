@@ -20,4 +20,21 @@ const apiQueroDelivery = axios.create({
     }
 })
 
+// Listar todos os produtos do aplicativo
+app.get('/produto', async (req, res) => {
+
+    try {
+        function listaProdutos() {
+            return apiQueroDelivery.get('/produto')
+        }
+    
+        const dados = await listaProdutos()
+
+        res.status(200).json(dados.data)
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+    
+})
+
 app.listen(8080, () => console.log("Server ON"))
