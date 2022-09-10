@@ -140,4 +140,40 @@ app.put('/produto/preco', async (req, res) => {
     }
 })
 
+// Atualizar o preço, estoque e status de um produto específico no aplicativo, buscando os dados do ERP por código de barras
+app.put('/produto/:codigoBarra', async (req, res) => {
+    const codigoBarra = req.params.codigoBarra
+
+    try {
+        function listaProdutosERP() {
+            return apiSystemMercado.get(`/${codigoBarra}/barCode`)
+        }
+    
+        const dados = await listaProdutosERP()
+
+        const produto = dados.data
+
+        let preco = produto.price
+        let precoAntigo = 50
+        let quantidade = produto.stock
+        let status = ""
+        if (produto.isActive == false) {
+            status = "OCULTO"
+        } else if (produto.isActive == true && produto.stock > 0) {
+            status = "ATIVO"
+        } else {
+            status = "EM FALTA"
+        }
+
+        await apiQueroDelivery.put(`/produto/preco?codigoBarras=${codigoBarra}`, { preco: preco, precoAntigo: precoAntigo })
+        await apiQueroDelivery.put(`/produto/lancar-estoque?codigoBarras=${codigoBarra}`, { quantidade: quantidade })
+        await apiQueroDelivery.put(`/produto/status?codigoBarras=${codigoBarra}`, { status: status })
+
+        res.status(200).json({message: "Preço, estoque e status do produto atualizado com sucesso!"})
+
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
 app.listen(8080, () => console.log("Server ON"))
