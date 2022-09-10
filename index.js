@@ -37,4 +37,48 @@ app.get('/produto', async (req, res) => {
     
 })
 
+// Cadastrar todos os produtos do ERP no aplicativo
+app.post('/produto', async (req, res) => {
+    try {
+
+        function listaProdutosERP() {
+            return apiSystemMercado.get('/')
+        }
+    
+        const dados = await listaProdutosERP()
+
+        const produtos = dados.data.products
+
+        produtos.forEach(async prod => {
+            let produto = {
+                nome: prod.name,
+                categoriaId: "63192ad7a7e10600450b42f8",
+                status: "",
+                preco: prod.price,
+                precoAntigo: 0,
+                codigoBarras: prod.barCode,
+                isPesavel: prod.isHeavy,
+                isPromocao: true,
+                isSazonal: false
+            }
+
+            if (prod.isActive == false) {
+                produto.status = "OCULTO"
+            } else if (prod.isActive == true && prod.stock > 0) {
+                produto.status = "ATIVO"
+            } else {
+                produto.status = "EM FALTA"
+            }
+
+            await apiQueroDelivery.post('/produto', produto)
+
+        })
+
+        res.status(201).json({message: 'Produto(s) cadastrado(s) com sucesso!'})
+
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
 app.listen(8080, () => console.log("Server ON"))
