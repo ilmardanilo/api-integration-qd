@@ -176,4 +176,30 @@ app.put('/produto/:codigoBarra', async (req, res) => {
     }
 })
 
+// Deletar um produto específico no aplicativo por código de barras
+app.delete('/produto/:codigoBarra', async (req, res) => {
+    const codigoBarra = req.params.codigoBarra
+
+    try {
+
+        function listaProdutos() {
+            return apiQueroDelivery.get(`/produto?codigoBarras=${codigoBarra}`)
+        }
+    
+        const dados = await listaProdutos()
+
+        if (dados.data.r == false) {
+            res.status(200).json({message: "Produto não existe!"})
+            return
+        }
+
+        await apiQueroDelivery.delete(`/produto?codigoBarras=${codigoBarra}`)
+
+        res.status(200).json({message: "Produto excluído com sucesso!"})
+
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
 app.listen(8080, () => console.log("Server ON"))
