@@ -110,4 +110,34 @@ app.put('/produto/estoque', async (req, res) => {
     }
 })
 
+// Atualizar todos os preços dos produtos, buscando do ERP, para o aplicativo
+app.put('/produto/preco', async (req, res) => {
+    try {
+        
+        function listaProdutosERP() {
+            return apiSystemMercado.get('/')
+        }
+    
+        const dados = await listaProdutosERP()
+
+        const produtos = dados.data.products
+
+        produtos.forEach(async prod => {
+            let produto = {
+                preco: prod.price,
+                precoAntigo: 14
+            }
+
+            let codigoBarra = prod.barCode
+
+            await apiQueroDelivery.put(`/produto/preco?codigoBarras=${codigoBarra}`, produto)
+
+        })
+
+        res.status(200).json({message: "Preço dos produtos atualizado com sucesso!"})
+    } catch (error) {
+        res.status(500).json(console.log("Erro: " + error))
+    }
+})
+
 app.listen(8080, () => console.log("Server ON"))
