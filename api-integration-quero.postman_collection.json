@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "2ed788bf-1615-4a2e-a0ec-22881e2c9baa",
+		"name": "api-integration-quero",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21715027"
+	},
+	"item": [
+		{
+			"name": "listar produtos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/produto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cadastrar produtos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/produto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remover produto por codigo de barras",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/produto/7896339900158",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produto",
+						"7896339900158"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar estoque dos produtos",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/produto/estoque",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produto",
+						"estoque"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar preco dos produtos",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/produto/preco",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produto",
+						"preco"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar preco, estoque e status de um produto por codigo de barras",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/produto/7896339900158",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produto",
+						"7896339900158"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
