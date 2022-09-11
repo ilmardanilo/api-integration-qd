@@ -4,7 +4,8 @@
   "description": "API para integrar dados de um sistema externo a API do Quero Delivery",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Ilmar Danilo",
   "license": "ISC",
