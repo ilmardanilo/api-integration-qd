@@ -127,13 +127,25 @@ router.put('/:codigoBarra', async (req, res) => {
     const codigoBarra = req.params.codigoBarra
 
     try {
+
+        function listaProdutosQD() {
+            return apiQueroDelivery.get(`/produto?codigoBarras=${codigoBarra}`)
+        }
+    
+        const dadosQD = await listaProdutosQD()
+
+        if (dadosQD.data.r == false) {
+            res.status(200).json({message: "Produto não existe."})
+            return
+        }
+
         function listaProdutosERP() {
             return apiSystemMercado.get(`/${codigoBarra}/barCode`)
         }
     
-        const dados = await listaProdutosERP()
+        const dadosERP = await listaProdutosERP()
 
-        const produto = dados.data
+        const produto = dadosERP.data
 
         let preco = produto.price
         let precoAntigo = 50
